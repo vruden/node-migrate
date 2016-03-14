@@ -25,8 +25,10 @@ migrate.init(config.migrationPath, config.dbms, config.mysql, config.migrationTa
         case 'history':
             migrate.history(argv._[1], callback);
             break;
-        default :
+        case 'migrate':
             migrate.migrate(argv._[1], callback);
+        default :
+            migrate.migrate(argv._[0], callback);
     }
 
     function callback(err, result) {
