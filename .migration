@@ -1,0 +1,16 @@
+var path = require('path');
+
+// Path to the migrations directory (relative to migrate)
+exports.migrationPath = path.join(__dirname, './migrations/');
+
+// Which DBMS to use for executing migrations
+exports.dbms = 'mysql';
+
+// Configuration for MySQL (username, password, etc.)
+exports.mysql = {
+    user: 'username',
+    password: 'your_password',
+    database: 'database_name'
+};
+
+exports.migrationTableName = '_migrations';
