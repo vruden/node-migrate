@@ -25,6 +25,9 @@ migrate.init(config.migrationPath, config.dbms, config.mysql, config.migrationTa
         case 'history':
             migrate.history(argv._[1], callback);
             break;
+        case 'new':
+            migrate.new(argv._[1], callback);
+            break;
         case 'migrate':
             migrate.migrate(argv._[1], callback);
         default :
