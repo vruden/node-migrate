@@ -1,24 +1,56 @@
 {
-  "name": "node-migrate",
+  "name": "migrate2",
   "description": "",
-  "version": "0.0.1",
-  "private": false,
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vruden/node-migrate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vruden/node-migrate/issues"
+  },
+  "homepage": "https://github.com/vruden/node-migrate",
+  "author": {
+    "name": "Vladimir Rudenko",
+    "email": "ruden.v.a@gmail.com"
+  },
+  "license": "MIT",
+  "bin": {
+    "migrate": "./bin/migrate2"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "engines": {
-    "node": ">=5.7.0",
-    "npm": ">=3.6.0"
+    "node": ">=8.5.0",
+    "npm": ">=5.3.0"
   },
   "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run clean && npm run build-ts && npm run tslint",
+    "clean": "rm -rf lib",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "mocha test"
   },
   "dependencies": {
-    "async": "1.5.2",
-    "chalk": "^1.1.0",
-    "lodash": "^3.10.0",
-    "minimist": "1.2.0",
-    "mysql": "~2.5.5",
-    "moment": "2.12.0"
+    "async": "^2.5.0",
+    "lodash": "^4.17.4",
+    "minimist": "^1.2.0",
+    "moment": "^2.18.1",
+    "mysql": "^2.14.1"
   },
   "devDependencies": {
-
-  }
+    "@types/async": "^2.0.42",
+    "@types/lodash": "^4.14.74",
+    "@types/minimist": "^1.2.0",
+    "@types/moment": "^2.13.0",
+    "@types/mysql": "^0.0.34",
+    "@types/node": "^8.0.30"
+  },
+  "keywords": [
+    "node",
+    "mysql",
+    "migration"
+  ]
 }

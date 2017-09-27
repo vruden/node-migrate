@@ -7,10 +7,10 @@ exports.migrationPath = path.join(__dirname, './migrations/');
 exports.dbms = 'mysql';
 
 // Configuration for MySQL (username, password, etc.)
-exports.mysql = {
-    user: 'username',
-    password: 'your_password',
-    database: 'database_name'
+exports.connection = {
+    user: 'root',
+    password: '123456',
+    database: 'node-test'
 };
 
 exports.migrationTableName = '_migrations';
