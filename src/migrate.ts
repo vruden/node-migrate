@@ -203,7 +203,7 @@ export class Migration implements IMigration {
         if (limit === 'all') {
             _limit = null;
         } else {
-            _limit = parseInt(limit);
+            _limit = parseInt(limit) || 1;
 
             if (_limit < 1) {
                 return callback(new Error('The step argument must be greater than 0.'));

@@ -4,6 +4,7 @@ Migration system for Node.js
 To use DbMigrate you need to install it globally first:
     
     $ npm install -g dbmigrate
+    $ npm link dbmigrate
     
 DbMigrate is now available to you via:
 
@@ -11,7 +12,7 @@ DbMigrate is now available to you via:
     or
     $ migrate
     
-### As local module
+### Or as local module
 Want to use DbMigrate as local module?
 
     $ npm install db-migrate
