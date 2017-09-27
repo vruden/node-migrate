@@ -1,5 +1,5 @@
 {
-  "name": "migrate2",
+  "name": "dbmigrate",
   "description": "",
   "version": "0.0.2",
   "repository": {
@@ -16,7 +16,7 @@
   },
   "license": "MIT",
   "bin": {
-    "migrate": "./bin/migrate2"
+    "migrate": "./bin/dbmigrate"
   },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

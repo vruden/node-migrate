@@ -18,9 +18,9 @@ migration.init(function (err) {
         case 'create':
             migration.create(argv._[1], callback);
             break;
-        // case 'down':
-        //     migration.down(argv._[1], callback);
-        //     break;
+        case 'down':
+            migration.down(argv._[1], callback);
+            break;
         // case 'redo':
         //     migration.redo(argv._[1], callback);
         //     break;
@@ -38,11 +38,14 @@ migration.init(function (err) {
 
     function callback(err, result) {
         if (err) {
-            console.error(err);
+            console.error(err.message);
             return process.exit(1);
         }
 
-        console.log(result);
+        if (result) {
+            console.log(result);
+        }
+
         process.exit(0);
     }
 });

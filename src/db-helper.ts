@@ -15,7 +15,7 @@ export class DbHelper {
     getTemplate(filename: string): string {
         const migrationClass = 'MysqlMigration';
         const template = `
-const Migration = require("node-migrate").${migrationClass};
+const Migration = require("dbmigrate").${migrationClass};
 
 class ${filename} extends Migration {
     up(callback) {
