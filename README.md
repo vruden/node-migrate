@@ -45,7 +45,41 @@ Once you have the configuration file filled you you can create a new migration f
 
     $ migrate create migration_name
 
-This command will create a blank migration and stick it in the migrations folder that you supplied in the configuration file. Once you fill out the migration's up and down functions you can then apply the migration to your schema like so:
+This command will create a blank migration and stick it in the migrations folder that you supplied in the configuration file. 
+
+    const Migration = require("dbmigrate").MysqlMigration;
+    
+    class m20170927_113738_user_table extends Migration {
+        up(callback) {
+            this.connection.query(
+                'CREATE TABLE user (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT)',
+                (err, result) => {
+                    if (err) {
+                        return callback(err);
+                    }
+    
+                    this.connection.query(
+                        'INSERT INTO user (name, age) VALUES ?',
+                        [[
+                            ['Tom', 23],
+                            ['Adam', 29]
+                        ]],
+                        callback);
+                }
+            );
+        }
+    
+        down(callback) {
+            this.connection.query(
+                'DROP TABLE user',
+                callback
+            );
+        }
+    }
+    
+    exports.migrationClass = m20170927_113738_user_table;
+
+Once you fill out the migration's up and down functions you can then apply the migration to your schema like so:
 
     $ migrate migrate
     $ migrate migrate 3
