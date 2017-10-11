@@ -32,7 +32,7 @@ migration.init(function (err) {
         case 'new':
             migration.new(argv._[1], callback);
             break;
-        case 'migrate':
+        case 'up':
             migration.up(argv._[1], callback);
         default :
             migration.up(argv._[0], callback);
