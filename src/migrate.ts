@@ -33,8 +33,8 @@ export class Migration implements IMigration {
 
     init(callback) {
         async.series([
-            (callback) => {this.file.createDirectory(callback)},
-            (callback) => {this.db.createHistoryTable(callback)}
+            (callback) => {this.file.createDirectory(callback); },
+            (callback) => {this.db.createHistoryTable(callback); }
         ], function (err) {
             callback(err);
         });

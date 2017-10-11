@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as mysql from 'mysql';
 
-interface IMysqlMigration {
+export interface IMysqlMigration {
     up(callback: (err?) => void): void;
     safeUp(callback: (err?) => void): void;
     down(callback: (err?) => void): void;
