@@ -34,6 +34,7 @@ migration.init(function (err) {
             break;
         case 'up':
             migration.up(argv._[1], callback);
+            break;
         default :
             migration.up(argv._[0], callback);
     }

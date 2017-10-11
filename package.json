@@ -1,7 +1,7 @@
 {
   "name": "dbmigrate",
   "description": "",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/vruden/node-migrate.git"
@@ -19,8 +19,8 @@
     "dbmigrate": "./bin/migrate",
     "migrate": "./bin/migrate"
   },
-  "main": "./lib/migrate-cli.js",
-  "types": "./lib/migrate-cli.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "engines": {
     "node": ">=8.5.0",
     "npm": ">=5.3.0"
