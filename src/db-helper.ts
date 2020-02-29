@@ -18,21 +18,21 @@ export class DbHelper {
 const Migration = require("dbmigrate").${migrationClass};
 
 class ${filename} extends Migration {
-    up(callback) {
+    // up(callback) {
+    //     callback();
+    // }
+
+    // down(callback) {
+    //     callback();
+    // }
+
+    safeUp(callback) {
         callback();
     }
 
-    down(callback) {
+    safeDown(callback) {
         callback();
     }
-
-    // safeUp(callback) {
-    //     callback();
-    // }
-    //
-    // safeDown(callback) {
-    //     callback();
-    // }
 
 }
 
