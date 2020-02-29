@@ -17,7 +17,7 @@ export class MysqlMigration implements IMysqlMigration {
     up(callback: (err?) => void): void {
         const self = this;
 
-        if (typeof this.safeUp === 'function') {
+        if (typeof this.safeUp !== 'function') {
             return callback(new Error('safeUp method is not implemented'));
         }
 
@@ -49,12 +49,13 @@ export class MysqlMigration implements IMysqlMigration {
     }
 
     safeUp(callback: (err?) => void): void {
+        callback();
     }
 
     down(callback: (err?) => void): void {
         const self = this;
 
-        if (!_.isFunction(self.safeDown)) {
+        if (typeof this.safeDown !== 'function') {
             return callback(new Error('safeDown method is not implemented'));
         }
 
@@ -86,5 +87,6 @@ export class MysqlMigration implements IMysqlMigration {
     }
 
     safeDown(callback: (err?) => void): void {
+        callback();
     }
 }
