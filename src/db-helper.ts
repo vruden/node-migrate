@@ -1,5 +1,27 @@
 import * as mysql from 'mysql';
 
+const noImplicitThisFixing = {
+    escape(value: string) {},
+    escapeId(value: string) {},
+    queryFormat(query: string, values: any): string {
+        if (!values) return query;
+
+        const self = this;
+
+        return query.replace(/\:\:(\w+)/g, function (txt: string, key: any) {
+            if (values.hasOwnProperty(key)) {
+                return self.escapeId(values[key]);
+            }
+            return txt;
+        }.bind(this)).replace(/\:(\w+)/g, function (txt: string, key: any) {
+            if (values.hasOwnProperty(key)) {
+                return self.escape(values[key]);
+            }
+            return txt;
+        }.bind(this));
+    }
+};
+
 export class DbHelper {
     private dbms: 'mysql' | 'postgresql';
     private pool: mysql.IPool;
@@ -9,7 +31,7 @@ export class DbHelper {
         this.dbms = dbms;
         this.tableName = tableName;
 
-        this.pool = mysql.createPool(connection);
+        this.pool = mysql.createPool({ ...connection, queryFormat: noImplicitThisFixing.queryFormat });
     }
 
     getTemplate(filename: string): string {
@@ -18,22 +40,21 @@ export class DbHelper {
 const Migration = require("dbmigrate").${migrationClass};
 
 class ${filename} extends Migration {
-    // up(callback) {
-    //     callback();
+    // async up() {
+    //
     // }
 
-    // down(callback) {
-    //     callback();
+    // async down() {
+    //
     // }
 
-    safeUp(callback) {
-        callback();
+    async safeUp() {
+
     }
 
-    safeDown(callback) {
-        callback();
-    }
+    async safeDown() {
 
+    }
 }
 
 
@@ -44,11 +65,13 @@ exports.migrationClass = ${filename};`;
 
     createHistoryTable(callback: (err: mysql.IError) => void): void {
         this.pool.query(
-            'CREATE TABLE IF NOT EXISTS ?? ( ' +
+            'CREATE TABLE IF NOT EXISTS ::tableName ( ' +
             '`version` varchar(180) NOT NULL, ' +
             '`apply_time` int(11) DEFAULT NULL ' +
             ') ENGINE=InnoDB DEFAULT CHARSET=utf8',
-            [this.tableName],
+            {
+                tableName: this.tableName
+            },
             callback
         );
     }
@@ -56,10 +79,13 @@ exports.migrationClass = ${filename};`;
     getMigrationHistory(limit: number, callback: (err: mysql.IError, rows?: {version, apply_time}[]) => void): void {
         this.pool.query(
             'SELECT version, apply_time ' +
-            'FROM ?? ' +
+            'FROM ::tableName ' +
             'ORDER BY apply_time DESC, version DESC ' +
-            (limit ? 'LIMIT ?' : ''),
-            [this.tableName, limit],
+            (limit ? 'LIMIT :limit' : ''),
+            {
+                tableName: this.tableName,
+                limit
+            },
             function (err, rows) {
                 if (err) {
                     return callback(err);
@@ -72,16 +98,23 @@ exports.migrationClass = ${filename};`;
 
     addMigrationHistory(version: string, callback): void {
         this.pool.query(
-            'INSERT INTO ?? SET version = ?, apply_time = ?',
-            [this.tableName, version, Date.now() / 1000],
+            'INSERT INTO ::tableName SET version = :version, apply_time = :time',
+            {
+                tableName: this.tableName,
+                version,
+                time: Date.now() / 1000
+            },
             callback
         );
     }
 
     removeMigrationHistory(version: string, callback): void {
         this.pool.query(
-            'DELETE FROM ?? WHERE version = ?',
-            [this.tableName, version],
+            'DELETE FROM ::tableName WHERE version = :version',
+            {
+                tableName: this.tableName,
+                version
+            },
             callback
         );
     }
@@ -93,13 +126,7 @@ exports.migrationClass = ${filename};`;
 
             const migration = new migrationClass(connection);
 
-            migration.up(function (err) {
-                if (err) {
-                    connection.release();
-
-                    return callback(err);
-                }
-
+            migration.up().then(() => {
                 self.addMigrationHistory(migrationName, function (err) {
                     connection.release();
 
@@ -109,6 +136,10 @@ exports.migrationClass = ${filename};`;
 
                     callback();
                 });
+            }).catch((err) => {
+                connection.release();
+
+                return callback(err);
             });
         });
     }
@@ -120,13 +151,7 @@ exports.migrationClass = ${filename};`;
 
             const migration = new migrationClass(connection);
 
-            migration.down(function (err) {
-                if (err) {
-                    connection.release();
-
-                    return callback(err);
-                }
-
+            migration.down().then(() => {
                 self.removeMigrationHistory(migrationName, function (err) {
                     connection.release();
 
@@ -136,6 +161,10 @@ exports.migrationClass = ${filename};`;
 
                     callback();
                 });
+            }).catch((err) => {
+                connection.release();
+
+                return callback(err);
             });
         });
     }
