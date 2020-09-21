@@ -20,7 +20,7 @@ export declare class Migration implements IMigration {
     history(limit: string, callback: IMigrationCallback): void;
     up(limit: string, callback: any): void;
     down(limit: string, callback: any): any;
-    private getNewMigrations(callback);
-    private migrateUp(migrationName, callback);
-    private migrateDown(migrationName, callback);
+    private getNewMigrations;
+    private migrateUp;
+    private migrateDown;
 }
