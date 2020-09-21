@@ -7,8 +7,8 @@ export declare class DbHelper {
     getTemplate(filename: string): string;
     createHistoryTable(callback: (err: mysql.IError) => void): void;
     getMigrationHistory(limit: number, callback: (err: mysql.IError, rows?: {
-        version;
-        apply_time;
+        version: any;
+        apply_time: any;
     }[]) => void): void;
     addMigrationHistory(version: string, callback: any): void;
     removeMigrationHistory(version: string, callback: any): void;
