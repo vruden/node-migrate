@@ -10,7 +10,8 @@
     "sourceMap": false,
     "alwaysStrict": true,
     "outDir": "lib",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
   },
   "include": [
     "src/**/*.ts"

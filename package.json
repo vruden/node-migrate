@@ -39,7 +39,8 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "moment": "^2.18.1",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "got": "11.8.6"
   },
   "devDependencies": {
     "@types/async": "^2.0.42",

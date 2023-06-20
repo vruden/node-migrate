@@ -1,10 +1,10 @@
+const { config } = require('./dist/config').default;
+
 module.exports = {
-    migrationPath: './migrations',
+    migrationPath: 'migrations',
     dbms: 'mysql',
-    connection: {
-        user: 'username',
-        password: 'password',
-        database: 'databaseName'
+    connection: {...config.db.master,
+        flags: {ghost: config.ghost}
     },
     migrationTableName: '_migrations'
 };

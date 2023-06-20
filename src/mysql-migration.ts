@@ -27,7 +27,7 @@ export class MysqlMigration implements IMysqlMigration {
     }
 
     private async beginTransaction() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.connection.beginTransaction((err) => {
                 if (err) {
                     return reject(err);
@@ -39,7 +39,7 @@ export class MysqlMigration implements IMysqlMigration {
     }
 
     private async commit() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.connection.commit((err) => {
                 if (err) {
                     return reject(err);
@@ -51,7 +51,7 @@ export class MysqlMigration implements IMysqlMigration {
     }
 
     private async rollback() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.connection.rollback(() => {
                 resolve();
             });
